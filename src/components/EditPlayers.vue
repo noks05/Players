@@ -1,105 +1,102 @@
 <template>
   <h1>Редактирование игроков</h1>
 
-  <div
-    v-for="item in usersLife"
-    :key="item.name"
-    class="row"
-  >
-      <input id="name" v-model="item.name">
-      <a class="button" href="#" @click.prevent="minusLife(item)">-</a>
-      <span class="lifeCount">{{item.life}}</span>
-      <a class="button" href="#" @click.prevent="plusLife(item)">+</a>
+  <div v-for="item in usersLife" :key="item.name" class="row">
+    <input :id="item.name" v-model="item.name" />
+    <button class="button" @click="minusLife(item)">-</button>
+    <span class="lifeCount">{{ item.life }}</span>
+    <button class="button" @click="plusLife(item)">+</button>
   </div>
-  
+
   <h2>Рейтинг</h2>
   <table>
-    <tr
-    v-for="(item, index) in rating"
-    :key="index"
-    >
-    <td v-text="`${index + 1}`"></td>
-    <td v-text="`У игрока <b>${item.name}</b> ${item.life} жизней`"></td>
-  </tr>
+    <tr v-for="(item, index) in rating" :key="index">
+      <td v-text="`${index + 1}`"></td>
+      <td v-html="`У игрока <b>${item.name}</b> ${item.life} жизней`"></td>
+    </tr>
   </table>
 </template>
 
 <script>
 export default {
-  name: 'LifeCounter',
+  name: "LifeCounter",
 
   props: {
     playersList: {
-      type: Array
+      type: Array,
     },
   },
-  
-  data () {
+
+  data() {
     return {
+      usersLife: [],
     };
   },
-  
+
   created() {
-    for (let i = 0; i < this.playersList; i++) {
-      this.usersLife.push({
-        name: this.playersList.name,
-        life: this.playersList.life
-      });
-    }
+    this.usersLife = this.playersList.map(player => ({
+      name: player.name,
+      life: player.life,
+    }));
   },
-  
+
   computed: {
-    usersLife () {
-      return [...this.playersList]
-    },
-    rating () {
-      let places = this.usersLife;
-  
+    rating() {
+      let places = [...this.usersLife]; 
+
       places.sort((a, b) => b.life - a.life);
-     
+
       return places;
-    }
+    },
   },
-  
+
   methods: {
-    plusLife (item) {
+    plusLife(item) {
       item.life++;
     },
 
-    minusLife (item) {
-      item.life--;
-    }
+    minusLife(item) {
+      if (item.life > 0) {
+        item.life--;
+      }
+    },
   },
-}
+};
 </script>
 
 <style lang="scss">
-    .row {
-        display: flex;
-        align-items: center;
-        margin-top: 20px;
+.row {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
 
-        input {
-            margin-right: 12px;
-            width: 100%;
-            height: 24px;
-        }
+  input {
+    margin-right: 12px;
+    width: 100%;
+    height: 24px;
+  }
 
-        .button {
-          width: 24px;
-          height: 24px;
-        }
+  .button {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+  }
 
-        .life {
-          margin: 0 12px;
-        }
-    }
+  .life {
+    margin: 0 12px;
+  }
 
-    table {
-      width: 100%;
+  .lifeCount {
+    display: inline-block;
+    width: 40px;
+  }
+}
 
-      td {
-        border: 1px solid #2c3e50;
-      }
-    }
+table {
+  width: 100%;
+
+  td {
+    border: 1px solid #2c3e50;
+  }
+}
 </style>

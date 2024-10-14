@@ -1,33 +1,17 @@
 <template>
-  <CreatePlayer @players-list="createdPlayers" />
-  <EditPlayers :playersList="playersList" />
+   <div>
+    <h1>Добавить нового игрока</h1>
+    <WrapperSwitch />
+   </div>
 </template>
 
 <script>
-import CreatePlayer from './components/CreatePlayer.vue'
-import EditPlayers from './components/EditPlayers.vue'
+
+import WrapperSwitch from "./components/WrapperSwitch.vue";
 
 export default {
   name: 'App',
-  components: {
-    CreatePlayer,
-    EditPlayers
-  },
-  data() {
-    return {
-      playersList: []
-    }
-  },
-
-  created() {
-    
-  },
-
-  methods: {
-    createdPlayers(list) {
-      this.playersList = list;
-    }
-  },
+  components: {WrapperSwitch},
 }
 </script>
 
@@ -38,7 +22,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin: 60px auto;
-  width: 600px;
 }
 </style>
