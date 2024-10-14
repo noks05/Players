@@ -2,7 +2,7 @@
     <h1>Добавить нового игрока</h1>
     <div class="row">
         <input id="name" type="text" v-model="players_name" placeholder="Имя"/>
-        <input id="life" type="number" v-model="players_life" placeholder="Жизней" />
+        <input id="life" type="number" min="1" v-model="players_life" placeholder="Жизней" />
         <button type="button" v-on:click="createPlayer">Создать</button>
     </div>
 </template>
@@ -23,18 +23,18 @@ export default {
   methods: {
     createPlayer() {
 
-        if(this.players_name === '' || this.players_name === undefined) {
+        if(!this.players_name || !this.players_name.trim()) {
             alert('Укажите имя');
             return;
         }
 
-        if(this.players_life === '' || this.players_life === undefined) {
+        if(!this.players_life) {
             alert('Укажите количество жизней');
             return;
         }
 
         if(this.players_life <= 0) {
-            alert('Значение не может быть больше нуля');
+            alert('Значение не может быть ноль, или меньше нуля');
             return;
         }
 

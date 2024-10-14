@@ -20,7 +20,7 @@
 
 <script>
 import CreatePlayer from "./CreatePlayer.vue";
-import EditPlayers from "./EditPlayers.vue";
+import EditPlayers from "./EditPlayers/EditPlayers.vue";
 
 export default {
   name: "WrapperSwitch",
