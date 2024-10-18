@@ -1,15 +1,27 @@
 <template>
   <div>
     <h1>Редактирование игроков</h1>
-    <div v-for="item in usersLife" :key="item.name" class="row">
-      <input
-        :id="item.name"
-        :value="item.name"
-        @input="(e)=>changeName(e.target.value, item)"
-      />
-      <button class="button" @click="minusLife(item)">-</button>
-      <span class="lifeCount">{{ item.life }}</span>
-      <button class="button" @click="plusLife(item)">+</button>
+    <div
+      v-for="(player, index) in this.$store.getters.getPlayers"
+      :key="index"
+      class="row"
+    >
+      <input v-model="player.name" />
+      <button
+        class="button"
+        @click="() => minusLife(player)"
+      >
+        -
+      </button>
+
+      <span class="lifeCount">{{ player.life }}</span>
+
+      <button
+        class="button"
+        @click="() => plusLife(player)"
+      >
+        +
+      </button>
     </div>
   </div>
 </template>
@@ -17,45 +29,17 @@
 <script>
 export default {
   name: "PlayerList",
-
-  props: {
-    players: {
-      type: Array,
-      required: true,
-    },
+  created(){
+    console.log(this.$store.state.players)
   },
-
-  data() {
-    return {
-      usersLife: [],
-      timeId: 0,
-    };
-  },
-
-  created() {
-    this.usersLife = this.players.map(player => ({
-      name: player.name,
-      life: player.life,
-    }));
-  },
-
   methods: {
-    plusLife(item) {
-      item.life++;
-      this.$emit("update-players", this.usersLife);
+    plusLife(p) {
+      p.life++
     },
-
-    minusLife(item) {
-      if (item.life > 1) {
-        item.life--;
-        this.$emit("update-players", this.usersLife);
+    minusLife(p) {
+      if (p.life > 1) {
+        p.life--
       }
-    },
-
-    changeName(str, it) {
-      if(this.timeId) clearTimeout(this.timeId)
-      this.timeId = setTimeout(()=>it.name = str.trim(), 500) 
-      this.$emit("update-players", this.usersLife);
     },
   },
 };

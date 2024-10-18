@@ -1,20 +1,28 @@
 <template>
   <div class="wrapper">
-      <div class="tabs">
-        <button class="tabCreate" type="button" @click="switchState(true)">Создать</button>
-        <button type="button" @click="switchState(false)">Редактировать</button>
-      </div>
-  
-      <CreatePlayer
-        @players-list="createdPlayers"
-        v-if="state"
-      />
-      <EditPlayers 
-      :playersList="playersList" 
-      v-else/>
-  
-      <h3 v-if="!!state.length">Что то пошло не так, попробуйте перезагрузить страницу</h3>
-  
+    <div class="tabs">
+      <button
+        class="tabCreate"
+        type="button"
+        @click="switchState(true)"
+      >
+        Создать
+      </button>
+
+      <button
+        type="button"
+        @click="switchState(false)"
+      >
+        Редактировать
+      </button>
+    </div>
+
+    <CreatePlayer v-if="state" />
+    <EditPlayers v-else />
+
+    <h3 v-if="state.length">
+      Что то пошло не так, попробуйте перезагрузить страницу
+    </h3>
   </div>
 </template>
 
@@ -31,38 +39,34 @@ export default {
 
   data() {
     return {
-      playersList: [],
       state: true,
     };
   },
 
   methods: {
-    createdPlayers(list) {
-      this.playersList = list;
-    },
     switchState(bol) {
-      this.state = bol
+      this.state = bol;
     },
   },
 };
 </script>
 
 <style lang="scss">
-.wrapper{
+.wrapper {
   position: relative;
-  text-align: center;
+  width: 600px;
   margin: 60px auto;
   padding-top: 20px;
-  width: 600px;
+  text-align: center;
 
-  .tabs{
+  .tabs {
     position: absolute;
     top: -20px;
     left: 50%;
     transform: translate(-50%);
   }
 
-  .tabCreate{
+  .tabCreate {
     margin-right: 20px;
   }
 }

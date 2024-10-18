@@ -1,74 +1,93 @@
 <template>
-    <h1>Добавить нового игрока</h1>
-    <div class="row">
-        <input id="name" type="text" v-model="players_name" placeholder="Имя"/>
-        <input id="life" type="number" min="1" v-model="players_life" placeholder="Жизней" />
-        <button type="button" v-on:click="createPlayer">Создать</button>
+    <div>
+        <h1>Добавить нового игрока</h1>
+        <div class="row">
+            <input
+                v-model="name"
+                id="name"
+                type="text"
+                placeholder="Имя"
+            />
+            <input
+                v-model="life"
+                class="inputLife"
+                id="life"
+                type="number"
+                min="1"
+                max="100"
+                placeholder="Жизней"
+            />
+            <button
+                @click="createPlayer"
+                type="button"
+            >
+                Создать
+            </button>
+        </div>
     </div>
 </template>
 
-
 <script>
 export default {
-  name: 'CreatePlayer',
-  
-  data () {
-    return {
-      players: [],
-      players_name: '',
-      players_life: ''
-    };
-  },
-  
-  methods: {
-    createPlayer() {
+    name: "CreatePlayer",
 
-        if(!this.players_name || !this.players_name.trim()) {
-            alert('Укажите имя');
-            return;
-        }
+    data() {
+        return {
+            name: "",
+            life: "",
+        };
+    },
+mounted(){this.$nextTick(function () {
+    ['a','b','c','d','e'].forEach((item,i)=>{
+        // console.log(this.$store, item, i, arr)
+        this.$store.commit('addPlayer', {name: item, life: i+1})
+    })
+  })
+},
+    methods: {
+        createPlayer() {
+            if (!this.name || !this.name.trim()) {
+                alert("Укажите имя");
+                return;
+            }
 
-        if(!this.players_life) {
-            alert('Укажите количество жизней');
-            return;
-        }
+            if (!this.life) {
+                alert("Укажите количество жизней");
+                return;
+            }
 
-        if(this.players_life <= 0) {
-            alert('Значение не может быть ноль, или меньше нуля');
-            return;
-        }
+            if (this.life <= 0) {
+                alert("Значение не может быть ноль, или меньше нуля");
+                return;
+            }
 
-        this.players.push({
-            'name': this.players_name,
-            'life': this.players_life,
-        })
+            const newPlayer = { name: this.name, life: this.life };
+            this.$store.commit("addPlayer", newPlayer);
 
-        this.players_name = '';
-        this.players_life = '';
-
-        this.$emit('players-list', this.players);
-    }
-  },
-}
+            this.name = "";
+            this.life = "";
+        },
+    },
+};
 </script>
 
 <style lang="scss">
-    .row {
-        display: flex;
-        margin-top: 20px;
+.row {
+    display: flex;
+    margin-top: 20px;
 
-        input {
-            margin-right: 12px;
-            width: 100%;
-            height: 24px;
-        }
-
-        button {
-            width: 70px;
-        }
+    input {
+        width: 100%;
+        height: 24px;
+        margin-right: 12px;
     }
 
-    #life {
+    button {
         width: 70px;
     }
+}
+
+.inputLife {
+    width: 70px;
+}
 </style>

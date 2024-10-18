@@ -14,16 +14,9 @@
 export default {
   name: "PlayerRating",
 
-  props: {
-    players: {
-      type: Array,
-      required: true,
-    },
-  },
-
   computed: {
     sortedPlayers() {
-      return [...this.players].sort((a, b) => b.life - a.life);
+      return [...this.$store.getters.getPlayers].sort((a, b) => b.life - a.life);
     },
   },
 };

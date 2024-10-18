@@ -1,9 +1,8 @@
 <template>
   <div>
-    <PlayerList :players="players" @update-players="updatePlayers" />
-    <PlayerRating :players="players" />
+    <PlayerList />
+    <PlayerRating />
   </div>
-
 </template>
 
 <script>
@@ -12,31 +11,7 @@ import PlayerRating from './PlayerRating.vue';
 
 export default {
   name: "LifeCounter",
-  components:{PlayerList,PlayerRating},
-
-  props: {
-    playersList: {
-      type: Array,
-    },
-  },
-
-  data() {
-    return {
-      players:[...this.playersList],
-    };
-  },
-
-  created() {
-  },
-
-  computed: {
-  },
-
-  methods: {
-    updatePlayers(updatedPlayers) {
-      this.players = updatedPlayers;
-    },
-  },
+  components: { PlayerList, PlayerRating },
 };
 </script>
 
